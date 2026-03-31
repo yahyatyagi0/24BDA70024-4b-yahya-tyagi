@@ -4,75 +4,235 @@
 
 **Student ID:** 24BDA70024  
 **Name:** Yahya Tyagi  
-**Assignment:** 4b - Playing Card API  
+**Assignment:** 4b - Card Collection API  
 
-## Project Description
+# Card Collection API
 
-This project implements a simple Playing Card API using Node.js and Express. The API provides endpoints to manage a deck of playing cards, including shuffling, dealing cards, and retrieving card information.
+A simple REST API for managing a collection of playing cards built with Express.js.
 
 ## Features
 
-- Create a new deck of 52 cards
-- Shuffle the deck
-- Deal cards from the deck
-- Get remaining cards count
-- Reset the deck
+- CRUD operations for cards (Create, Read, Update, Delete)
+- Pagination support for listing cards
+- In-memory data storage
+- CORS enabled
+- ES modules support
 
 ## Technologies Used
 
-- Node.js
-- Express.js
-- JavaScript
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **CORS** - Cross-origin resource sharing
+- **Nodemon** - Development server with auto-restart
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yahyatyagi0/24BDA70024-4b-yahya-tyagi.git
-   cd 24BDA70024-4b-yahya-tyagi/playing-card-api
-   ```
-
+1. Clone the repository
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
 ## Usage
 
-1. Start the development server:
-   ```bash
-   npm run dev
-   ```
+### Development Server
 
-2. Or start the production server:
-   ```bash
-   npm start
-   ```
+Start the development server with auto-restart:
+```bash
+pnpm run dev
+```
 
-The server will run on `http://localhost:3000` (or the port specified in the code).
+### Production Server
+
+Start the production server:
+```bash
+pnpm start
+```
+
+The server will run on `http://localhost:3000` by default, or use the `PORT` environment variable.
 
 ## API Endpoints
 
-- `GET /deck` - Get the current deck
-- `POST /shuffle` - Shuffle the deck
-- `POST /deal` - Deal a card
-- `GET /count` - Get remaining cards count
-- `POST /reset` - Reset the deck
+### Base URL
+```
+http://localhost:3000
+```
+
+### Cards Endpoints
+
+#### GET /
+Returns a welcome message.
+
+**Response:**
+```json
+{
+  "message": "Welcome to the card collection API"
+}
+```
+
+#### GET /cards
+Get all cards with pagination.
+
+**Query Parameters:**
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 10)
+
+**Response:**
+```json
+{
+  "totalCards": 1,
+  "totalPages": 1,
+  "currentPage": 1,
+  "limit": 10,
+  "cards": [
+    {
+      "id": 1708272000000,
+      "suit": "diamonds",
+      "value": "queen",
+      "collection": "royal"
+    }
+  ],
+  "next": null,
+  "previous": null
+}
+```
+
+#### GET /cards/:id
+Get a specific card by ID.
+
+**Parameters:**
+- `id`: Card ID (number)
+
+**Response (Success):**
+```json
+{
+  "id": 1708272000000,
+  "suit": "diamonds",
+  "value": "queen",
+  "collection": "royal"
+}
+```
+
+**Response (Not Found):**
+```json
+{
+  "message": "Card not found"
+}
+```
+
+#### POST /cards
+Create a new card.
+
+**Request Body:**
+```json
+{
+  "suit": "hearts",
+  "value": "ace",
+  "collection": "standard"
+}
+```
+
+**Required Fields:**
+- `suit`: Card suit (string)
+- `value`: Card value (string)
+
+**Optional Fields:**
+- `collection`: Collection name (string)
+
+**Response:**
+```json
+{
+  "id": 1708272001000,
+  "suit": "hearts",
+  "value": "ace",
+  "collection": "standard"
+}
+```
+
+#### PUT /cards/:id
+Update an existing card.
+
+**Parameters:**
+- `id`: Card ID (number)
+
+**Request Body:**
+```json
+{
+  "suit": "spades",
+  "value": "king"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "id": 1708272000000,
+  "suit": "spades",
+  "value": "king",
+  "collection": "royal"
+}
+```
+
+**Response (Not Found):**
+```json
+{
+  "message": "Card not found"
+}
+```
+
+#### DELETE /cards/:id
+Delete a card.
+
+**Parameters:**
+- `id`: Card ID (number)
+
+**Response (Success):** 204 No Content
+
+**Response (Not Found):**
+```json
+{
+  "message": "Card not found"
+}
+```
 
 ## Project Structure
 
 ```
-playing-card-api/
-├── package.json
-├── package-lock.json
-├── server.js
-└── node_modules/
+├── index.js              # Main application entry point
+├── package.json          # Project dependencies and scripts
+├── pnpm-lock.yaml        # Lock file for pnpm
+├── controllers/
+│   └── card.controller.js # Request handlers for card routes
+├── models/
+│   └── card.model.js     # Data model and in-memory storage
+├── routes/
+│   └── card.routes.js    # Route definitions
+└── services/
+    └── card.service.js   # Business logic layer
 ```
 
-## Contributing
+## Card Model
 
-This is an assignment submission. For any questions, please contact the instructor.
+Each card has the following properties:
 
-## License
+- `id`: Unique identifier (number, auto-generated)
+- `suit`: Card suit (string, e.g., "hearts", "diamonds", "clubs", "spades")
+- `value`: Card value (string, e.g., "ace", "2", "3", ..., "10", "jack", "queen", "king")
+- `collection`: Collection name (string, optional)
 
-This project is for educational purposes only.
+## Error Handling
+
+The API returns appropriate HTTP status codes:
+
+- `200`: Success
+- `201`: Created
+- `204`: No Content (for DELETE)
+- `400`: Bad Request (missing required fields)
+- `404`: Not Found (card not found)
+
+## Development
+
+This project uses ES modules (`"type": "module"` in package.json). All imports and exports follow ES module syntax.
+
+Data is stored in memory and will be lost when the server restarts. For production use, consider implementing persistent storage (database).</content>
+<parameter name="filePath">c:\Users\ASUS\OneDrive\Desktop\my stuff\24bda70134-4b-manasguleria\README.md
